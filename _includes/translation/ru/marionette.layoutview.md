@@ -175,42 +175,7 @@ var MyLayoutView = Marionette.LayoutView.extend({
       console.log('The show:message event bubbled up to the parent.');
     }
   });
-<<<<<<< .mine
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-// The parent uses childEvents to catch that custom event on the child view
-var ParentView = Marionette.LayoutView.extend({
-
-  childEvents: {
-    'show:message': 'onChildShowMessage',
-    'submit:form': 'onChildSubmitForm'
-  },
-
-  onChildShowMessage: function (childView, message) {
-    console.log('A child view fired show:message with ' + message);
-  },
-
-  onChildSubmitForm: function (childView) {
-    console.log('A child view fired submit:form');
-  }
-});
->>>>>>> .theirs
-```
+  
 
 ### <a name="specifying-regions-as-a-function"></a> Указание регионов с помощью функции
 
