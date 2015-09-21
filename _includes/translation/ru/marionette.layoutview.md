@@ -126,8 +126,9 @@ var MyLayoutView = Marionette.LayoutView.extend({
 
   // этот кэлбэк  будет вызван когда ребенок рендерится или посылает `render` событие
   childEvents: {
-    render: function(childView) {
-      console.log("a childView has been rendered");
+    // This callback will be called whenever a child is rendered or emits a `render` event
+    render: function() {
+      console.log('A child view has been rendered.');
     }
   }
 });
@@ -141,7 +142,8 @@ var MyLayoutView = Marionette.LayoutView.extend({
     }
   },
 
-  onChildRender: function(childView) {
+  onChildRendered: function () {
+    console.log('A child view has been rendered.');
   }
 });
 ```
@@ -155,11 +157,10 @@ var MyLayoutView = Marionette.LayoutView.extend({
       'click .button': 'showMessage'
     },
 
-    showMessage: function (e) {
-      console.log('The button was clicked.');
-      this.triggerMethod('show:message', msg);
-    }
-  });
+  // Events hash defines local event handlers that in turn may call `triggerMethod`.
+  events: {
+    'click .button': 'onClickButton'
+  },
 
   // его родитель, используя настройки childEvents перехватывает кастомное событие 
   var ParentView = new Marionette.LayoutView.extend({
@@ -174,6 +175,41 @@ var MyLayoutView = Marionette.LayoutView.extend({
       console.log('The show:message event bubbled up to the parent.');
     }
   });
+<<<<<<< .mine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+// The parent uses childEvents to catch that custom event on the child view
+var ParentView = Marionette.LayoutView.extend({
+
+  childEvents: {
+    'show:message': 'onChildShowMessage',
+    'submit:form': 'onChildSubmitForm'
+  },
+
+  onChildShowMessage: function (childView, message) {
+    console.log('A child view fired show:message with ' + message);
+  },
+
+  onChildSubmitForm: function (childView) {
+    console.log('A child view fired submit:form');
+  }
+});
+>>>>>>> .theirs
 ```
 
 ### <a name="specifying-regions-as-a-function"></a> Указание регионов с помощью функции
