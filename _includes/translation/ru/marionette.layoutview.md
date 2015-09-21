@@ -10,7 +10,8 @@
 Вы можете создавать сложные представления, помещая объекты класса `LayoutView`
 внутрь объектов класса `Regions`.
 
-Для лучшего понимания предназначения `LayoutView` советуем ознакомиться с постом [Manage Layouts And Nested Views With Backbone.Marionette](http://lostechies.com/derickbailey/2012/03/22/managing-layouts-and-nested-views-with-backbone-marionette/)
+Для лучшего понимания предназначения `LayoutView` советуем ознакомиться с 
+постом [Manage Layouts And Nested Views With Backbone.Marionette](http://lostechies.com/derickbailey/2012/03/22/managing-layouts-and-nested-views-with-backbone-marionette/)
 
 Поскольку класс `LayoutView` наследуется от `ItemView`, то он обладает всем
 функционалом класса-родителя. Подробнее о `ItemView` вы можете познакомиться в
@@ -113,21 +114,17 @@ new Marionette.LayoutView({
 
 ### LayoutView childEvents
 
-You can specify a `childEvents` hash or method which allows you to capture all
-bubbling `childEvents` without having to manually set bindings.
+Можно  определить `childEvents` хеш (или метод возвращающий хеш) позволяющий описать варианты перехвата всплывающих 
+`childEvents` от вложенных представлений без ручного биндинга.
 
-The keys of the hash can either be a function or a string
-that is the name of a method on the layout view.
-
-The function is called in the context of the view. The first parameter is
-the child view, which emitted the event, the remainder are the arguments
-associated with the event.
+Ключи хеша могут быть функцией  или текстовой строкой. Функция вызывается в контексте `view`. Первым параметром получает
+`child view` (из которого приходит событие), затем следующие аргументы ассоциированные с событием. 
 
 ```js
-// childEvents can be specified as a hash...
+// childEvents можно описать в виде хеша
 var MyLayoutView = Marionette.LayoutView.extend({
 
-  // This callback will be called whenever a child is rendered or emits a `render` event
+  // этот кэлбэк  будет вызван когда ребенок рендерится или посылает `render` событие
   childEvents: {
     render: function(childView) {
       console.log("a childView has been rendered");
@@ -135,7 +132,7 @@ var MyLayoutView = Marionette.LayoutView.extend({
   }
 });
 
-// ...or as a function that returns a hash.
+// ...или функции возвращающей хэш
 var MyLayoutView = Marionette.LayoutView.extend({
 
   childEvents: function() {
@@ -149,10 +146,10 @@ var MyLayoutView = Marionette.LayoutView.extend({
 });
 ```
 
-This also works for custom events that you might fire on your child views.
+Также это работает для кастомных событий, что вы можете вызывать из вложенных `child view`.
 
 ```js
-  // The child view fires a custom event, `show:message`
+  // `child view` вызывает кастомный ивент, `show:message`
   var ChildView = new Marionette.ItemView.extend({
     events: {
       'click .button': 'showMessage'
@@ -164,7 +161,7 @@ This also works for custom events that you might fire on your child views.
     }
   });
 
-  // The parent uses childEvents to catch that custom event on the child view
+  // его родитель, используя настройки childEvents перехватывает кастомное событие 
   var ParentView = new Marionette.LayoutView.extend({
     childEvents: {
       'show:message': function (childView, msg) {
@@ -172,8 +169,7 @@ This also works for custom events that you might fire on your child views.
       }
     },
 
-    // Alternatively we can use the trigger notation with childview: as the
-    // prefix
+    // Или можем описать перехват события используя префиксную форму нотации 
     onChildviewShowMessage: function (childView, msg) {
       console.log('The show:message event bubbled up to the parent.');
     }
